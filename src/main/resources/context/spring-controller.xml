@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/util
+       https://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!-- CommandFactory and Servlet -->
+    <bean id="main" class="com.example.controller.Main">
+        <property name="commandFactory" ref="commandFactory"/>
+    </bean>
+    <bean id="commandFactory" class="com.example.controller.CommandFactory">
+        <constructor-arg name="commands" ref="commands"/>
+        <constructor-arg name="defaultCommand" ref="errorCommand"/>
+    </bean>
+
+    <bean name="errorCommand" class="com.example.controller.commands.additional.ErrorCommand"/>
+
+    <!-- Map with commands -->
+    <util:map id="commands" map-class="java.util.HashMap" key-type="java.lang.String" value-type="com.example.controller.ICommand">
+        <entry key="addDept" value-ref="addDepartment"/>
+        <entry key="addPageDept" value-ref="addPageDepartment"/>
+        <entry key="deleteDept" value-ref="deleteDepartment"/>
+        <entry key="editDept" value-ref="editDepartment"/>
+        <entry key="editPageDept" value-ref="editPageDepartment"/>
+        <entry key="listDept" value-ref="listDepartment"/>
+
+        <entry key="addEmpl" value-ref="addEmployee"/>
+        <entry key="addPageEmpl" value-ref="addPageEmployee"/>
+        <entry key="deleteEmpl" value-ref="deleteEmployee"/>
+        <entry key="editEmpl" value-ref="editEmployee"/>
+        <entry key="editPageEmpl" value-ref="editPageEmployee"/>
+        <entry key="listEmpl" value-ref="listEmployee"/>
+    </util:map>
+
+    <!-- Commands -->
+    <bean id="addDepartment" class="com.example.controller.commands.department.AddDepartmentCommand">
+        <property name="departmentHibernateService" ref="abstractDepartmentCommand"/>
+        <property name="validator" ref="validator"/>
+    </bean>
+    <bean id="addPageDepartment" class="com.example.controller.commands.department.AddPageDepartmentCommand">
+    </bean>
+    <bean id="deleteDepartment" class="com.example.controller.commands.department.DeleteDepartmentCommand">
+        <property name="departmentHibernateService" ref="abstractDepartmentCommand"/>
+        <property name="employeeHibernateService" ref="abstractEmployeeCommand"/>
+    </bean>
+    <bean id="editDepartment" class="com.example.controller.commands.department.EditDepartmentCommand">
+        <property name="departmentHibernateService" ref="abstractDepartmentCommand"/>
+        <property name="validator" ref="validator"/>
+    </bean>
+    <bean id="editPageDepartment" class="com.example.controller.commands.department.EditPageDepartmentCommand">
+        <property name="departmentHibernateService" ref="abstractDepartmentCommand"/>
+    </bean>
+    <bean id="listDepartment" class="com.example.controller.commands.department.ListDepartmentsCommand">
+        <property name="departmentHibernateService" ref="abstractDepartmentCommand"/>
+    </bean>
+
+    <bean id="addEmployee" class="com.example.controller.commands.employee.AddEmployeeCommand">
+        <property name="employeeHibernateService" ref="abstractEmployeeCommand"/>
+        <property name="validator" ref="validator"/>
+    </bean>
+    <bean id="addPageEmployee" class="com.example.controller.commands.employee.AddPageEmployeeCommand">
+    </bean>
+    <bean id="deleteEmployee" class="com.example.controller.commands.employee.DeleteEmployeeCommand">
+        <property name="employeeHibernateService" ref="abstractEmployeeCommand"/>
+    </bean>
+    <bean id="editEmployee" class="com.example.controller.commands.employee.EditEmployeeCommand">
+        <property name="employeeHibernateService" ref="abstractEmployeeCommand"/>
+        <property name="validator" ref="validator"/>
+    </bean>
+    <bean id="editPageEmployee" class="com.example.controller.commands.employee.EditPageEmployeeCommand">
+        <property name="employeeHibernateService" ref="abstractEmployeeCommand"/>
+    </bean>
+    <bean id="listEmployee" class="com.example.controller.commands.employee.ListEmployeesCommand">
+        <property name="employeeHibernateService" ref="abstractEmployeeCommand"/>
+    </bean>
+</beans>

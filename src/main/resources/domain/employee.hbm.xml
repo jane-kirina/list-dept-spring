@@ -1,0 +1,14 @@
+<hibernate-mapping package="com.example.entity">
+    <class name="Employee" table="employee">
+        <id name="id" type="java.lang.Long" column="employee_id">
+            <generator class="native"/>
+        </id>
+        <property name="name" type="string" column="employee_name"/>
+        <property name="birthDate" type="java.time.LocalDate" column="employee_birth"/>
+        <property name="yearsWorking" type="java.lang.Integer" column="employee_years_working"/>
+        <property name="email" type="string" column="employee_email"/>
+
+        <many-to-one name="department" column="dept_id" not-null="true"
+                     class="com.example.entity.Department"/>
+    </class>
+</hibernate-mapping>

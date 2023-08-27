@@ -1,0 +1,10 @@
+<hibernate-mapping package="com.example.entity">
+    <class name="Department" table="dept">
+        <id name="id" type="java.lang.Long" column="dept_id">
+            <generator class="native"/>
+        </id>
+        <property name="name" type="string" column="dept_name"/>
+        <property name="number" type="string" column="dept_phone_number"/>
+
+    </class>
+</hibernate-mapping>

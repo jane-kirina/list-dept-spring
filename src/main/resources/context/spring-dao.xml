@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- Hibernate, SessionFactory -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
+    </bean>
+
+    <bean abstract="true" id="abstractDecoratorHibernateDao" name="abstractDecoratorHibernateDao">
+        <constructor-arg ref="sessionFactory" name="sessionFactory"/>
+    </bean>
+
+    <!-- DAO -->
+    <bean name="departmentHibernateDAO" class="com.example.dao.impl.hibernate.DepartmentHibernateDAO" parent="abstractDecoratorHibernateDao"/>
+    <bean name="employeeHibernateDAO" class="com.example.dao.impl.hibernate.EmployeeHibernateDAO" parent="abstractDecoratorHibernateDao"/>
+
+    <!-- Service -->
+    <alias name="departmentHibernateService" alias="abstractDepartmentCommand"/>
+    <bean id="departmentHibernateService" class="com.example.service.impl.hibernate.DepartmentHibernateService">
+        <constructor-arg name="departmentHibernateDao" ref="departmentHibernateDAO"/>
+    </bean>
+
+    <alias name="employeeHibernateService" alias="abstractEmployeeCommand"/>
+    <bean id="employeeHibernateService" class="com.example.service.impl.hibernate.EmployeeHibernateService">
+        <constructor-arg name="employeeHibernateDao" ref="employeeHibernateDAO"/>
+    </bean>
+</beans>
